@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import authContext from '../context/authContext';
 
-function Table({ getPlanets }) {
+function Table() {
+  const { getPlanets, planetFilter, setPlanetFilter } = useContext(authContext);
+
+  const planetFiltered = ({ target }) => {
+    const { value } = target;
+    const filtered = getPlanets.filter((planet) => planet.name.includes(value));
+    setPlanetFilter(filtered);
+  };
+
   return (
     <div>
       Tabela
@@ -25,7 +34,12 @@ function Table({ getPlanets }) {
         </thead>
 
         <tbody>
-          {getPlanets.map((planet) => (
+          <input
+            type="text"
+            data-testid="name-filter"
+            onChange={ planetFiltered }
+          />
+          {planetFilter.map((planet) => (
             <tr key={ planet.name }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
