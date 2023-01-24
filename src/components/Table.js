@@ -1,15 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import authContext from '../context/authContext';
+import FilterContext from '../context/FilterContext';
 
 function Table() {
-  const { getPlanets, planetFilter, setPlanetFilter } = useContext(authContext);
-
-  const planetFiltered = ({ target }) => {
-    const { value } = target;
-    const filtered = getPlanets.filter((planet) => planet.name.includes(value));
-    setPlanetFilter(filtered);
-  };
+  const { planetFilter } = useContext(authContext);
+  const { planetFiltered } = useContext(FilterContext);
 
   return (
     <div>
@@ -61,7 +57,6 @@ function Table() {
     </div>
   );
 }
-
 Table.propTypes = { getPlanets: PropTypes.array }.isRequired;
 
 export default Table;
