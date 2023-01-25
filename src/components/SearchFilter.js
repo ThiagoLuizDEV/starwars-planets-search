@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
 import FilterContext from '../context/FilterContext';
 
 function SearchFilter() {
@@ -6,23 +7,66 @@ function SearchFilter() {
   const [getColumn, setGetColumn] = useState('population');
   const [getOperator, setGetOperator] = useState('maior que');
   const [getValue, setGetValue] = useState(0);
+  const [selectColumn, setSelecteColumn] = useState([]);
+  const [arrayFilter, setArrayFilter] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
+  const handleChange = ({ target }) => {
+    setGetColumn(target.value);
+  };
+
+  //   const test = planetFiltered.filter((test1) => {
+  //     if (selectColumn.length > 0) {
+  //       return selectColumn.includes(test1.value);
+  //     }
+  //     return true;
+  //   });
+
+  const filtros = () => {
+    if (selectColumn.includes()) {
+      setSelecteColumn(selectColumn.filter((op) => op !== getColumn));
+      return;
+    }
+    setSelecteColumn([...selectColumn, getColumn]);
+  };
+
+  const removeFilter = () => {
+    const filterValue = arrayFilter.filter((array) => (
+      array !== getColumn
+    ));
+    setArrayFilter(filterValue);
+  };
 
   const handleClick = () => {
     filterPlanets(getColumn, getOperator, getValue);
+    filtros();
+    removeFilter();
   };
+
+  useEffect(() => {
+    setGetColumn(arrayFilter[0]);
+  }, [arrayFilter]);
+
   return (
     <div>
 
       <select
         name="column"
         data-testid="column-filter"
-        onChange={ ({ target }) => setGetColumn(target.value) }
+        onChange={ handleChange }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+
+        { arrayFilter.map((column) => (
+          <option key={ column } value={ column }>
+            {column}
+          </option>
+        )) }
+
       </select>
       <select
         name="comparison"
@@ -46,9 +90,12 @@ function SearchFilter() {
         type="button"
         onClick={ handleClick }
       >
-        Filter
+        Filtrar
 
       </button>
+      {selectColumn.map((value) => (
+        <div key={ value }>{ value }</div>
+      ))}
     </div>
   );
 }
