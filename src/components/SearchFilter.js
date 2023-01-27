@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-
+import authContext from '../context/authContext';
 import FilterContext from '../context/FilterContext';
 
 function SearchFilter() {
   const { filterPlanets } = useContext(FilterContext);
+  const { getPlanets, setPlanetFilter } = useContext(authContext);
   const [getColumn, setGetColumn] = useState('population');
   const [getOperator, setGetOperator] = useState('maior que');
   const [getValue, setGetValue] = useState(0);
@@ -19,13 +20,6 @@ function SearchFilter() {
   const handleChange = ({ target }) => {
     setGetColumn(target.value);
   };
-
-  //   const test = planetFiltered.filter((test1) => {
-  //     if (selectColumn.length > 0) {
-  //       return selectColumn.includes(test1.value);
-  //     }
-  //     return true;
-  //   });
 
   const filtros = () => {
     if (selectColumn.includes()) {
@@ -48,6 +42,23 @@ function SearchFilter() {
     removeFilter();
   };
 
+  const remover = () => {
+    setSelecteColumn([]);
+    setArrayFilter([
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ]);
+    setPlanetFilter(getPlanets);
+  };
+
+  const removefiltro = (e) => {
+    setSelecteColumn(selectColumn.filter((value) => e !== value));
+    setPlanetFilter(getPlanets);
+    setArrayFilter([...arrayFilter, e]);
+  };
   useEffect(() => {
     setGetColumn(arrayFilter[0]);
   }, [arrayFilter]);
@@ -94,8 +105,30 @@ function SearchFilter() {
 
       </button>
       {selectColumn.map((value) => (
-        <div key={ value }>{ value }</div>
+        <p key={ value } data-testid="filter">
+          {' '}
+          { value }
+          {' '}
+          <button
+            onClick={ () => removefiltro(value) }
+            type="button"
+            value={ value }
+
+          >
+            x
+          </button>
+
+        </p>
+
       ))}
+
+      <button
+        type="button"
+        onClick={ remover }
+        data-testid="button-remove-filters"
+      >
+        Remover filtros
+      </button>
     </div>
   );
 }

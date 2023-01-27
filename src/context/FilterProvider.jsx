@@ -24,11 +24,17 @@ function FilterProvider({ children }) {
       planetFilteres = planetFilter
         .filter((planet) => Number(planet[select]) === Number(number));
     }
+    console.log({ planetFilter, select, compare, number });
     setPlanetFilter(planetFilteres);
   };
 
   return (
-    <FilterContext.Provider value={ { filterPlanets, planetFiltered } }>
+    <FilterContext.Provider
+      value={ {
+        filterPlanets,
+        planetFiltered,
+      } }
+    >
       { children }
     </FilterContext.Provider>
   );
