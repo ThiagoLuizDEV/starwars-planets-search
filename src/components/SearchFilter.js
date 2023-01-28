@@ -17,14 +17,14 @@ function SearchFilter() {
     'surface_water',
   ]);
   const [ordem, setOrdem] = useState({ column: 'population', number: '' });
-  const handleOrder = ({ target }) => {
+
+  const funcOrdena = ({ target }) => {
     setOrdem({
       ...ordem,
       [target.name]: target.value,
     });
   };
-
-  const submitOrder = () => {
+  const ORdena = () => {
     ordemDosPlanets(ordem);
   };
 
@@ -142,7 +142,7 @@ function SearchFilter() {
       <select
         data-testid="column-sort"
         name="column"
-        onChange={ handleOrder }
+        onChange={ funcOrdena }
       >
         {arrayFilter.map((name, i) => (
           <option
@@ -158,7 +158,7 @@ function SearchFilter() {
         data-testid="column-sort-input-asc"
         value="ASC"
         name="number"
-        onClick={ handleOrder }
+        onClick={ funcOrdena }
       />
       <p>DESC</p>
       <input
@@ -166,12 +166,12 @@ function SearchFilter() {
         data-testid="column-sort-input-desc"
         value="DESC"
         name="number"
-        onClick={ handleOrder }
+        onClick={ funcOrdena }
       />
 
       <button
         data-testid="column-sort-button"
-        onClick={ submitOrder }
+        onClick={ ORdena }
       >
         Ordenar
       </button>
