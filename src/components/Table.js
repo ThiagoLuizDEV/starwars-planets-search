@@ -3,7 +3,7 @@ import authContext from '../context/authContext';
 import FilterContext from '../context/FilterContext';
 
 function Table() {
-  const { planetFilter, getPlanets } = useContext(authContext);
+  const { planetFilter } = useContext(authContext);
   const { planetFiltered } = useContext(FilterContext);
 
   return (
@@ -34,7 +34,7 @@ function Table() {
             data-testid="name-filter"
             onChange={ planetFiltered }
           />
-          {getPlanets && planetFilter.map((planet) => (
+          {planetFilter.map((planet) => (
             <tr key={ planet.name }>
               <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>

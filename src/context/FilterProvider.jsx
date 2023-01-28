@@ -17,10 +17,12 @@ function FilterProvider({ children }) {
     if (compare === 'maior que') {
       planetFilteres = planetFilter
         .filter((planet) => Number(planet[select]) > number);
-    } else if (compare === 'menor que') {
+    }
+    if (compare === 'menor que') {
       planetFilteres = planetFilter
         .filter((planet) => Number(planet[select]) < number);
-    } else if (compare === 'igual a') {
+    }
+    if (compare === 'igual a') {
       planetFilteres = planetFilter
         .filter((planet) => Number(planet[select]) === Number(number));
     }

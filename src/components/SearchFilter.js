@@ -35,9 +35,9 @@ function SearchFilter() {
   const filtros = () => {
     if (selectColumn.includes()) {
       setSelecteColumn(selectColumn.filter((op) => op !== getColumn));
-      return;
+    } else {
+      setSelecteColumn([...selectColumn, getColumn]);
     }
-    setSelecteColumn([...selectColumn, getColumn]);
   };
 
   const removeFilter = () => {
@@ -118,7 +118,7 @@ function SearchFilter() {
       </button>
       {selectColumn.map((value) => (
         <p key={ value } data-testid="filter">
-          { `${value}, ${getOperator}, ${getValue}` }
+          { value }
           <button
             onClick={ () => removefiltro(value) }
             type="button"
@@ -152,6 +152,7 @@ function SearchFilter() {
           </option>
         ))}
       </select>
+      <p>ASC</p>
       <input
         type="radio"
         data-testid="column-sort-input-asc"
@@ -159,6 +160,7 @@ function SearchFilter() {
         name="number"
         onClick={ handleOrder }
       />
+      <p>DESC</p>
       <input
         type="radio"
         data-testid="column-sort-input-desc"
@@ -166,6 +168,7 @@ function SearchFilter() {
         name="number"
         onClick={ handleOrder }
       />
+
       <button
         data-testid="column-sort-button"
         onClick={ submitOrder }
