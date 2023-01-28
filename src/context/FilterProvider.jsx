@@ -13,7 +13,7 @@ function FilterProvider({ children }) {
   };
 
   const filterPlanets = (select, compare, number) => {
-    let planetFilteres = [];
+    let planetFilteres = [...planetFilter];
     if (compare === 'maior que') {
       planetFilteres = planetFilter
         .filter((planet) => Number(planet[select]) > number);
@@ -24,8 +24,26 @@ function FilterProvider({ children }) {
       planetFilteres = planetFilter
         .filter((planet) => Number(planet[select]) === Number(number));
     }
-    console.log({ planetFilter, select, compare, number });
     setPlanetFilter(planetFilteres);
+  };
+
+  const ordemDosPlanets = ({ column, number }) => {
+    const unknown = planetFilter.filter((p) => p[column].includes('unknown'));
+
+    if (number === 'ASC') {
+      const order = planetFilter
+        .filter((p) => !p[column].includes('unknown'))
+        .sort((a, b) => a[column] - b[column]);
+      order.push(...unknown);
+      return setPlanetFilter(order);
+    }
+    if (number === 'DESC') {
+      const order = planetFilter
+        .filter((p) => !p[column].includes('unknown'))
+        .sort((a, b) => b[column] - a[column]);
+      order.push(...unknown);
+      return setPlanetFilter(order);
+    }
   };
 
   return (
@@ -33,6 +51,7 @@ function FilterProvider({ children }) {
       value={ {
         filterPlanets,
         planetFiltered,
+        ordemDosPlanets,
       } }
     >
       { children }

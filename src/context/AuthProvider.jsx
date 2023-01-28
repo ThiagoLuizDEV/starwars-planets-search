@@ -10,7 +10,7 @@ function AuthProvider({ children }) {
     const getFetchApi = async () => {
       const response = await fetch('https://swapi.dev/api/planets');
       const data = await response.json();
-      setPlanetFilter(data.results);
+      setPlanetFilter(data.results.filter((remove) => delete remove.residents));
       setGetPlanets(data.results.filter((remove) => delete remove.residents));
     };
     getFetchApi();

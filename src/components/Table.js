@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import authContext from '../context/authContext';
 import FilterContext from '../context/FilterContext';
 
 function Table() {
-  const { planetFilter } = useContext(authContext);
+  const { planetFilter, getPlanets } = useContext(authContext);
   const { planetFiltered } = useContext(FilterContext);
 
   return (
@@ -35,7 +34,7 @@ function Table() {
             data-testid="name-filter"
             onChange={ planetFiltered }
           />
-          {planetFilter.map((planet) => (
+          {getPlanets && planetFilter.map((planet) => (
             <tr key={ planet.name }>
               <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
@@ -57,6 +56,5 @@ function Table() {
     </div>
   );
 }
-Table.propTypes = { getPlanets: PropTypes.array }.isRequired;
 
 export default Table;

@@ -3,7 +3,7 @@ import authContext from '../context/authContext';
 import FilterContext from '../context/FilterContext';
 
 function SearchFilter() {
-  const { filterPlanets } = useContext(FilterContext);
+  const { filterPlanets, ordemDosPlanets } = useContext(FilterContext);
   const { getPlanets, setPlanetFilter } = useContext(authContext);
   const [getColumn, setGetColumn] = useState('population');
   const [getOperator, setGetOperator] = useState('maior que');
@@ -16,6 +16,17 @@ function SearchFilter() {
     'rotation_period',
     'surface_water',
   ]);
+  const [ordem, setOrdem] = useState({ column: 'population', number: '' });
+  const handleOrder = ({ target }) => {
+    setOrdem({
+      ...ordem,
+      [target.name]: target.value,
+    });
+  };
+
+  const submitOrder = () => {
+    ordemDosPlanets(ordem);
+  };
 
   const handleChange = ({ target }) => {
     setGetColumn(target.value);
@@ -59,6 +70,7 @@ function SearchFilter() {
     setPlanetFilter(getPlanets);
     setArrayFilter([...arrayFilter, e]);
   };
+
   useEffect(() => {
     setGetColumn(arrayFilter[0]);
   }, [arrayFilter]);
@@ -106,9 +118,7 @@ function SearchFilter() {
       </button>
       {selectColumn.map((value) => (
         <p key={ value } data-testid="filter">
-          {' '}
-          { value }
-          {' '}
+          { `${value}, ${getOperator}, ${getValue}` }
           <button
             onClick={ () => removefiltro(value) }
             type="button"
@@ -128,6 +138,39 @@ function SearchFilter() {
         data-testid="button-remove-filters"
       >
         Remover filtros
+      </button>
+      <select
+        data-testid="column-sort"
+        name="column"
+        onChange={ handleOrder }
+      >
+        {arrayFilter.map((name, i) => (
+          <option
+            key={ i }
+          >
+            {name}
+          </option>
+        ))}
+      </select>
+      <input
+        type="radio"
+        data-testid="column-sort-input-asc"
+        value="ASC"
+        name="number"
+        onClick={ handleOrder }
+      />
+      <input
+        type="radio"
+        data-testid="column-sort-input-desc"
+        value="DESC"
+        name="number"
+        onClick={ handleOrder }
+      />
+      <button
+        data-testid="column-sort-button"
+        onClick={ submitOrder }
+      >
+        Ordenar
       </button>
     </div>
   );
