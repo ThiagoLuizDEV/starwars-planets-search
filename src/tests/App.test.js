@@ -58,22 +58,22 @@ describe('Tabela', () => {
     const column = screen.getByTestId('column-filter');
     const operator = screen.getByTestId('comparison-filter');
     const number = screen.getByTestId('value-filter');
-    const filterBtn = screen.getByTestId('button-filter');
+    const filter = screen.getByTestId('button-filter');
 
     userEvent.selectOptions(column, 'diameter');
     userEvent.selectOptions(operator, 'igual a');
     userEvent.type(number, '4900');
-    userEvent.click(filterBtn);
+    userEvent.click(filter);
 
     const filterInfo = screen.getByTestId('filter');
-    const deleteBtn = screen.getByRole('button', {name: 'x'})
+    const deleteX = screen.getByRole('button', {name: 'x'})
     const planet = screen.getByRole('cell', {name: 'Endor'});
     
     expect(filterInfo).toBeInTheDocument();
-    expect(deleteBtn).toBeInTheDocument();
+    expect(deleteX).toBeInTheDocument();
     expect(planet).toBeInTheDocument();
     
-    userEvent.click(deleteBtn);
+    userEvent.click(deleteX);
     
     expect(filterInfo).not.toBeInTheDocument();
     
@@ -82,9 +82,9 @@ describe('Tabela', () => {
     userEvent.selectOptions(column, 'rotation_period');
     userEvent.selectOptions(operator, 'maior que');
     userEvent.type(number, '25');
-    userEvent.click(filterBtn);
+    userEvent.click(filter);
     
-    userEvent.click(deleteBtn);
+    userEvent.click(deleteX);
     userEvent.clear(number);
   });
   test('inputs de ordem e botao de ordenar', async () => {
